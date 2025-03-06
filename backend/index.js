@@ -21,22 +21,6 @@ app.use(passport.initialize()); // Инициализация passport
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-// Публичные маршруты (доступны без авторизации)
-app.use('/public', publicRoutes);
-
-// Маршруты авторизации (с API-ключом)
-app.use('/auth', authRoutes);
-
-// Маршруты пользователей и мероприятий (только с JWT)
-app.use('/users', passport.authenticate('jwt', { session: false }), userRoutes);
-app.use('/events', (req, res, next) => {
-    console.log('Authorization header:', req.headers.authorization);
-    next();
-}, passport.authenticate('jwt', { session: false }), eventRoutes);
-
-app.get('/', (req, res) => {
-    res.json({ message: 'Сервер работает!' });
-});
 
 const PORT = process.env.PORT || 5000;
 

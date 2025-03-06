@@ -64,6 +64,7 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ message: 'Ошибка сервера', error: error.message });
     }
 });
+// todo router.post('/register', AuthController.register);
 
 /**
  * @swagger
@@ -110,7 +111,7 @@ router.post('/register', async (req, res) => {
              return res.status(401).json({ message: 'Неверные email или пароль' });
          }
 
-         const accessToken = jwt.sign(
+         const accessToken = jwt.sign( //todo вынести в отдельный метод
              { id: user.id, email: user.email },
              process.env.JWT_SECRET,
              { expiresIn: '15m' }  // Access Token на 15 минут
@@ -118,10 +119,10 @@ router.post('/register', async (req, res) => {
 
          const refreshToken = uuidv4();
 
-         await RefreshToken.create({
+         await RefreshToken.create({ //todo в отдельный метод
              token: refreshToken,
              userId: user.id,
-             expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)  // Refresh Token на 7 дней
+             expiresAt: new Date(Date.now() + 7604800000)  // Refresh Token на 7 дней
          });
 
          res.status(200).json({

@@ -1,10 +1,10 @@
 const { sequelize } = require('../config/db');
-const User = require('./user');
+const User = require('./user'); //todo нейминг файлов поправить, в соответствии с ООП
 const Event = require('./event');
 const RefreshToken = require('./refreshToken');  // Добавили модель refresh токенов
 
 // Связи между моделями:
-User.hasMany(Event, { foreignKey: 'createdBy' });
+User.hasMany(Event, { foreignKey: 'createdBy' }); //todo вынести связи
 Event.belongsTo(User, { foreignKey: 'createdBy' });
 
 User.hasMany(RefreshToken, { foreignKey: 'userId' });
